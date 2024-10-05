@@ -9,7 +9,7 @@ const mainnet = defineChain({
 	nativeCurrency: {
 		name: network.mainnet.currencySymbol,
 		symbol: network.mainnet.currencySymbol,
-		decimals: 8,
+		decimals: 18,
 	},
 	rpcUrls: {
 		default: {
@@ -31,7 +31,7 @@ const testnet = defineChain({
 	nativeCurrency: {
 		name: network.testnet.currencySymbol,
 		symbol: network.testnet.currencySymbol,
-		decimals: 8,
+		decimals: 18,
 	},
 	rpcUrls: {
 		default: {
