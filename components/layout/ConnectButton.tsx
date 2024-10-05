@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dialog';
 import { isTestnet } from '@/lib/utils';
 import { network } from '@/lib/constants';
+import { LogOutIcon, WalletIcon } from 'lucide-react';
 
 export default function ConnectButton() {
 	const {
@@ -56,13 +57,20 @@ export default function ConnectButton() {
 		<>
 			<div>
 				{isConnected ? (
-					<Button onClick={() => handleDisconnect()}>
-						Disconnect
+					<Button
+						onClick={() => handleDisconnect()}
+						variant="secondary"
+					>
+						<LogOutIcon className="w-4 h-4 mr-2" />
+						Sign out
 					</Button>
 				) : (
 					<Dialog>
 						<DialogTrigger asChild>
-							<Button>Connect</Button>
+							<Button>
+								<WalletIcon className="w-4 h-4 mr-2" />
+								Sign in
+							</Button>
 						</DialogTrigger>
 						<DialogContent>
 							<DialogHeader>
@@ -71,15 +79,38 @@ export default function ConnectButton() {
 									Select a wallet provider to connect to.
 								</DialogDescription>
 							</DialogHeader>
-							<div>
-								{connectors.map((connector) => (
-									<Button
-										key={connector.id}
-										onClick={() => handleConnect(connector)}
-									>
-										{connector.name}
-									</Button>
-								))}
+							<div className="flex flex-col gap-1">
+								{connectors.length === 0 ? (
+									<small className="rounded border bg-slate-50 p-4 text-center text-neutral-500">
+										No connectors available
+									</small>
+								) : (
+									<>
+										{connectors.map((connector) => (
+											<Button
+												key={connector.id}
+												onClick={() =>
+													handleConnect(connector)
+												}
+												variant="outline"
+												size="lg"
+												disabled={
+													isConnecting ||
+													isReconnecting
+												}
+											>
+												{connector.icon && (
+													<img
+														src={connector.icon}
+														alt={connector.name}
+														className="mr-2 h-4 w-4"
+													/>
+												)}
+												{connector.name}
+											</Button>
+										))}
+									</>
+								)}
 							</div>
 						</DialogContent>
 					</Dialog>
