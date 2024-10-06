@@ -4,6 +4,7 @@ import './globals.css';
 import Header from '@/components/layout/Header';
 import { Providers } from '@/components/layout/Providers';
 import Footer from '@/components/layout/Footer';
+import { Toaster } from '@/components/ui/sonner';
 
 const geistSans = localFont({
 	src: './fonts/GeistVF.woff',
@@ -31,11 +32,12 @@ export default function RootLayout({
 		<Providers>
 			<html lang="en">
 				<body
-					className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+					className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-50`}
 				>
 					<Header />
-					<main className="flex flex-col grow">{children}</main>
+					<main className="flex flex-col grow p-5">{children}</main>
 					<Footer />
+					<Toaster />
 				</body>
 			</html>
 		</Providers>
