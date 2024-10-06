@@ -35,7 +35,7 @@ const formSchema = z.object({
 	username: z.string().min(2).max(30),
 	bio: z.string().max(160),
 	socialLinks: z.array(z.string().url()),
-	avatar: z.instanceof(FileList),
+	avatar: z.instanceof(globalThis.FileList),
 });
 
 export default function ProfilePage() {
