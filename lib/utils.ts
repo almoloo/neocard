@@ -12,3 +12,7 @@ export function isTestnet() {
 export function convertIPFSHashToURL(hash: string) {
 	return `${process.env.NEXT_PUBLIC_PINATA_GATEWAY}/ipfs/${hash}?pinataGatewayToken=${process.env.NEXT_PUBLIC_PINATA_GATEWAY_KEY}`;
 }
+
+export function addressEllipsis(address: string, length = 6) {
+	return `${address.slice(0, length)}...${address.slice(-length)}`;
+}
