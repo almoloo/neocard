@@ -11,7 +11,7 @@ import { CopyIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { useAccount, useReadContract } from 'wagmi';
 
@@ -34,7 +34,7 @@ export default function UserPage({ params }: ProfilePageProps) {
 		abi,
 		address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`,
 		functionName: 'getProfile',
-		args: [address],
+		args: [params.address],
 	}) as {
 		data: Profile;
 		error: Error;
@@ -44,7 +44,7 @@ export default function UserPage({ params }: ProfilePageProps) {
 
 	useEffect(() => {
 		if (!isProfileFetched) return;
-		if (profileData[4] === false) {
+		if (!profileData || profileData[4] === false) {
 			notFound();
 		}
 	}, [isProfileFetched, profileData]);
@@ -68,49 +68,53 @@ export default function UserPage({ params }: ProfilePageProps) {
 				</>
 			) : (
 				<>
-					{/* ----- AVATAR ----- */}
-					<Image
-						src={convertIPFSHashToURL(profileData[2])}
-						alt="Avatar"
-						width={100}
-						height={100}
-						className="rounded-full"
-						priority
-					/>
-					{/* ----- INFO ----- */}
-					<section className="flex flex-col items-center gap-3">
-						<h1 className="text-xl font-black">{profileData[0]}</h1>
-						<p className="text-neutral-700">{profileData[1]}</p>
-						<Button
-							size="sm"
-							title="Copy Address"
-							onClick={handleCopyAddress}
-							className={badgeVariants({ variant: 'secondary' })}
-						>
-							{addressEllipsis(address as string, 6)}
-							<CopyIcon className="w-4 h-4 ml-1" />
-						</Button>
-					</section>
-					{/* ----- LINKS ----- */}
-					{profileData[3].length > 0 && (
-						<section className="flex flex-col border rounded-lg max-w-full w-[400px]">
-							<div className="bg-slate-100 text-center text-sm px-2 py-4">
-								Follow me around the web
-							</div>
-							{profileData[3].map((link, index) => (
-								<LinkItem
-									link={link}
-									index={index}
-								/>
-							))}
-						</section>
+					{profileData && (
+						<>
+							{/* ----- AVATAR ----- */}
+							<Image
+								src={convertIPFSHashToURL(profileData[2])}
+								alt="Avatar"
+								width={100}
+								height={100}
+								className="rounded-full"
+								priority
+							/>
+							{/* ----- INFO ----- */}
+							<section className="flex flex-col items-center gap-3">
+								<h1 className="text-xl font-black">
+									{profileData[0]}
+								</h1>
+								<p className="text-neutral-700">
+									{profileData[1]}
+								</p>
+								<Button
+									size="sm"
+									title="Copy Address"
+									onClick={handleCopyAddress}
+									className={badgeVariants({
+										variant: 'secondary',
+									})}
+								>
+									{addressEllipsis(address as string, 6)}
+									<CopyIcon className="w-4 h-4 ml-1" />
+								</Button>
+							</section>
+							{/* ----- LINKS ----- */}
+							{profileData[3].length > 0 && (
+								<section className="flex flex-col border rounded-lg max-w-full w-[400px]">
+									<div className="bg-slate-100 text-center text-sm px-2 py-4">
+										Follow me around the web
+									</div>
+									{profileData[3].map((link, index) => (
+										<LinkItem
+											link={link}
+											index={index}
+										/>
+									))}
+								</section>
+							)}
+						</>
 					)}
-					{/* <div>
-						ProfilePage {params.address}
-						<div>{JSON.stringify(profileData)}</div>
-						<div>{JSON.stringify(fetchProfileError)}</div>
-						<div>{isFetchingProfile.toString()}</div>
-					</div> */}
 				</>
 			)}
 		</div>
