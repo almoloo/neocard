@@ -36,7 +36,7 @@ const formSchema = z.object({
 	username: z.string().min(2).max(30),
 	bio: z.string().max(160),
 	socialLinks: z.array(z.string().url()),
-	avatar: z.instanceof(globalThis.FileList),
+	avatar: z.any(),
 });
 
 export default function ProfilePage() {
@@ -99,13 +99,13 @@ export default function ProfilePage() {
 		}
 	}, [profileData, isProfileFetched]);
 
-	useEffect(() => {
-		if (!isDisconnected || isConnecting || isReconnecting || address)
-			return;
-		if (isDisconnected && !isConnecting && !isReconnecting && !address) {
-			router.push('/');
-		}
-	}, [status, router]);
+	// useEffect(() => {
+	// 	if (!isDisconnected || isConnecting || isReconnecting || address)
+	// 		return;
+	// 	if (isDisconnected && !isConnecting && !isReconnecting && !address) {
+	// 		router.push('/');
+	// 	}
+	// }, [status, router]);
 
 	async function handleUploadAvatar(files: FileList) {
 		try {
