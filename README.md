@@ -11,7 +11,7 @@
 
 ## 🌐 Live Demo
 
-A live demo of NeoCard can be accessed [here](#).
+A live demo of NeoCard can be accessed [here](https://neocard.placeholder.rest).
 
 ## 🛠️ Tech Stack
 
