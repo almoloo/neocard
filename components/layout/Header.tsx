@@ -6,6 +6,7 @@ import { UsersIcon } from 'lucide-react';
 const afacad = Afacad({
 	subsets: ['latin'],
 	weight: ['700'],
+	display: 'swap',
 });
 
 export default function Header() {

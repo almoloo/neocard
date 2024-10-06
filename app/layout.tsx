@@ -5,6 +5,7 @@ import Header from '@/components/layout/Header';
 import { Providers } from '@/components/layout/Providers';
 import Footer from '@/components/layout/Footer';
 import { Toaster } from '@/components/ui/sonner';
+import { Analytics } from '@vercel/analytics/react';
 
 const geistSans = localFont({
 	src: './fonts/GeistVF.woff',
@@ -38,6 +39,7 @@ export default function RootLayout({
 					<main className="flex flex-col grow p-5">{children}</main>
 					<Footer />
 					<Toaster />
+					<Analytics />
 				</body>
 			</html>
 		</Providers>
