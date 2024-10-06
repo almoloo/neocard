@@ -13,6 +13,7 @@ import {
 import { isTestnet } from '@/lib/utils';
 import { network } from '@/lib/constants';
 import { LogOutIcon, WalletIcon } from 'lucide-react';
+import Link from 'next/link';
 
 export default function ConnectButton() {
 	const {
@@ -57,13 +58,21 @@ export default function ConnectButton() {
 		<>
 			<div>
 				{isConnected ? (
-					<Button
-						onClick={() => handleDisconnect()}
-						variant="secondary"
-					>
-						<LogOutIcon className="w-4 h-4 mr-2" />
-						Sign out
-					</Button>
+					<nav className="flex">
+						<Link
+							href="/profile"
+							passHref
+						>
+							<Button variant="link">Edit Profile</Button>
+						</Link>
+						<Button
+							onClick={() => handleDisconnect()}
+							variant="secondary"
+						>
+							<LogOutIcon className="w-4 h-4 mr-2" />
+							Sign out
+						</Button>
+					</nav>
 				) : (
 					<Dialog>
 						<DialogTrigger asChild>
