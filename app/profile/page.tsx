@@ -28,6 +28,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export type Profile = [string, string, string, string[], boolean];
 
@@ -39,7 +40,9 @@ const formSchema = z.object({
 });
 
 export default function ProfilePage() {
-	const { address } = useAccount();
+	const { address, isDisconnected, isConnecting, isReconnecting } =
+		useAccount();
+	const router = useRouter();
 	const abi = contractABI;
 
 	const [saving, setSaving] = useState(false);
@@ -57,9 +60,9 @@ export default function ProfilePage() {
 	const fileRef = form.register('avatar');
 	const { fields, append, remove } = useFieldArray({
 		control: form.control,
-		// @ts-ignore
-		name: 'socialLinks',
+		name: 'socialLinks' as never,
 	});
+	// // @ts-ignore
 
 	const {
 		data: profileData,
@@ -95,6 +98,14 @@ export default function ProfilePage() {
 			setProfileAddress(address as string);
 		}
 	}, [profileData, isProfileFetched]);
+
+	useEffect(() => {
+		if (!isDisconnected || isConnecting || isReconnecting || address)
+			return;
+		if (isDisconnected && !isConnecting && !isReconnecting && !address) {
+			router.push('/');
+		}
+	}, [status, router]);
 
 	async function handleUploadAvatar(files: FileList) {
 		try {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useAccount, useConnect, useSwitchChain, type Connector } from 'wagmi';
+import { useAccount, useConnect, type Connector } from 'wagmi';
 import { Button } from '@/components/ui/button';
 import {
 	Dialog,
@@ -14,18 +14,13 @@ import { isTestnet } from '@/lib/utils';
 import { network } from '@/lib/constants';
 import { LogOutIcon, WalletIcon } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function ConnectButton() {
-	const {
-		isConnected,
-		isDisconnected,
-		isConnecting,
-		isReconnecting,
-		connector,
-	} = useAccount();
+	const { isConnected, isConnecting, isReconnecting, connector } =
+		useAccount();
 	const { connectors, connectAsync } = useConnect();
-	const { chains, switchChainAsync } = useSwitchChain();
-	const { address } = useAccount();
+	const router = useRouter();
 
 	// ----- HANDLE CONNECT
 	const handleConnect = async (connector: Connector) => {
@@ -36,6 +31,7 @@ export default function ConnectButton() {
 					? network.testnet.chainId
 					: network.mainnet.chainId,
 			});
+			router.push('/profile');
 		} catch (error) {
 			console.error(error);
 		}
@@ -49,6 +45,7 @@ export default function ConnectButton() {
 		}
 		try {
 			await connector.disconnect();
+			router.push('/');
 		} catch (error) {
 			console.error(error);
 		}
