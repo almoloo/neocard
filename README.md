@@ -9,10 +9,6 @@
 -   **Unique Shareable URLs**: Each user gets a unique profile URL, which they can share on their bio.
 -   **Blockchain Powered**: All operations are performed via smart contracts deployed on the Neo X blockchain.
 
-## 🌐 Live Demo
-
-A live demo of NeoCard can be accessed [here](https://neocard.placeholder.rest).
-
 ## 🛠️ Tech Stack
 
 -   **Frontend**: Next.js, Wagmi
